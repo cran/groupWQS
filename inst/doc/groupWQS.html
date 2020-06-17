@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Matthew Carli, Salem Rustom, David Wheeler" />
+
+<meta name="date" content="2020-06-17" />
+
+<title>groupWQS Vignette</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore"><code>groupWQS</code> Vignette</h1>
+<h4 class="author">Matthew Carli, Salem Rustom, David Wheeler</h4>
+<h4 class="date">2020-06-17</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(groupWQS)</a></code></pre></div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Weighted Quantile Sum (WQS) regression (Carrico et al., 2015) was developed to assess the effect of chemical mixtures (usually from the environment) on the risk of an adverse event such as cancer. The method allows one to identify “bad actor” chemicals through non-zero weights where the data are highly correlated and high dimensional (typical in chemical concentration data). Studies have shown it to be more accurate in identifying these chemicals (via sensitivity and specificity) than traditional regression and regularization methods such as LASSO, adaptive LASSO, and elastic net (Czarnota et al., 2015 Cancer Informatics). WQS regression treats all chemicals as being part of one group and having the same direction of association with the outcome. Grouped Weighted Quantile Sum (GWQS) regression (Czarnota and Wheeler, 2016) extends this method to allow one to place chemicals into groups such that different magnitudes and direction of associations can be determined for each pre-defined group of chemicals. For example, some types of chemicals may have a harmful effect (i.e. increase risk of cancer) while others may have a protective effect.</p>
+<p>Specifically, GWQS uses data with <em>i=1,…,C</em> components split between <em>j=1,…,K</em> groups. Within each of these <em>K</em> groups, the components are scored into quantiles that can be plausibly combined into an index. The weights <span class="math inline">\(w_i\)</span> are constrained to be between 0 and 1 and sum to 1, which in turn addresses potential issues with collinearity and high dimensionality. The general form of GWQS regression can be expressed as:</p>
+<p><span class="math display">\[
+\begin{equation}
+\tag{1}
+g(\mu)=\beta_{0}+\sum_{j=1}^{K}\left[\beta_{j}\left(\sum_{i=1}^{c_{j}} w_{j i} q_{j i}\right)\right]+z^{T} \phi 
+\end{equation}
+\]</span></p>
+<p>where <span class="math inline">\(w_{ji}\)</span> represents the weight for the <em>ith</em> chemical component <span class="math inline">\(q_{ji}\)</span>, and the summation <span class="math inline">\(\sum^{c_i}_{i=1}w_{ji}q_{ji}\)</span> represents a weighted index for the set of <span class="math inline">\(c_j\)</span> chemicals of interest within group <em>j</em>. The vector <em>z</em> is a vector of covariates for which to adjust. On the right hand side, <em>g</em> is a monotonic and differentiable link function that relates to the mean <span class="math inline">\(\mu\)</span>. The link function used depends on the type of outcome (e.g. continuous or binary). For inference, the equation (1) is run for <em>B</em> bootstraps where in each bootstrap sample the significance of the estimated vector of weights is evaluated through the significance (P≤0.05) of <span class="math inline">\(\hat{\beta}_j\)</span>, the parameter estimate of weighted index <em>j</em>. The estimated index for each of the <em>j</em> chemical groups is obtained by <span class="math inline">\(GWQS_j = \sum^{c_i}_{i=1}\bar{w_{ji}}q_{ji}\)</span> where <span class="math inline">\(\bar{w_{ji}}\)</span> is the weighted average of the <span class="math inline">\(\hat{\beta}_j\)</span> test statistics for component <em>i</em>. Significance of the group effects is assessed using the following model with the test dataset:</p>
+<p><span class="math display">\[
+\tag{2}
+g(\mu)=\beta_{0}+\sum_{j=1}^{K}\left[GWQS_j\right]+z^{T} \phi 
+\]</span></p>
+<p>Nonlinear optimization of (1) using the <code>solnp</code> function from R is used to estimate the unknown weights and beta parameters. This function uses an augmented Lagrange multiplier method with a sequential quadratic programming interior algorithm.</p>
+<p>The main function of <code>groupWQS</code> is <code>gwqs.fit</code>, which implements GWQS regression. The functions <code>make.X</code> and <code>make.x.s</code> are used to prepare data for regression, where <code>make.X</code> organizes user data into a matrix of desired groups while <code>make.x.s</code> forms a vector detailing the order and size of each group in the exposure matrix. The output of these two functions are used as arguments in the main <code>gwqs.fit</code> function. The model fit object that is returned can be fed into the <code>plot.weights</code> function, which visualizes the weight estimated for individual chemicals in each of the regressed groups. We provide an example analysis below to illustrate the usage of <code>groupWQS</code>.</p>
+</div>
+<div id="using-groupwqs" class="section level1">
+<h1>Using <code>groupWQS</code></h1>
+<div id="data-preparation" class="section level3">
+<h3>Data Preparation</h3>
+<p>The package <code>groupWQS</code> requires a dataframe where component variables used to construct indices are named. As an example, we will look at <code>simdata</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span>(simdata)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">head</span>(simdata)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt;    pcb_118  pcb_138  pcb_153   pcb_180   pcb_192        as        cu         pb</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; 1 2.360824 2.700214 3.536807 1.3630520  3.568884  4.332258 3.4998226  7.6088824</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; 2 2.788382 1.353622 2.328022 3.3261689 -2.020155 -1.146443 0.8174605 -1.6830696</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; 3 6.246413 3.166612 6.851131 7.2149506 10.504976  5.042383 6.2631718  7.2252882</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; 4 3.642265 2.881070 3.760282 4.3231974  3.368709  2.814906 3.9192663  2.1143266</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; 5 3.481870 3.820329 3.178467 0.9451579  3.786788  6.331203 2.2228106  4.8262313</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; 6 4.088892 4.799032 5.467218 4.2547060  6.078460  2.622098 1.8577607  0.6898549</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;         sn   carbaryl propoxur methoxychlor   diazinon chlorpyrifos Y</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; 1 3.975121  4.7416076 4.203351     4.598234  5.5571762    5.4269398 0</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt; 2 1.710898 -0.4558587 2.255870     2.751266  2.6322118   -0.6704027 0</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt; 3 4.857086  7.2872371 5.274585     6.739046 12.0197435    8.1984625 0</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt; 4 3.798077  0.7455287 3.111616     2.940376  0.6781079    1.5744175 0</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt; 5 4.409647  0.6547444 2.309184     3.652926  0.6819997    1.7293713 1</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; 6 4.374542  4.3322814 4.672852     4.023438  6.7486293    5.9936270 1</span></a></code></pre></div>
+<p>These data represent chemical concentrations for 14 suspected carcinogens found in the environment, and the <code>Y</code> variable represents our case-control outcomes, 1 for cancer and 0 for cancer-free.</p>
+<p>To prepare our data and let <code>gwqs.fit</code> know how many groups we want in our model, as well as which variables belong to which group, we use two functions:</p>
+<ol style="list-style-type: decimal">
+<li><code>make.X</code></li>
+</ol>
+<p><code>make.X</code> organizes component variables into a matrix suitable for analysis. To specify variable groups, we make a list of string vectors, each vector corresponding to a group and each string corresponding to a variable name. This list is then used as an argument in <code>make.X</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">group_list &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">c</span>(<span class="st">&quot;pcb_118&quot;</span>, <span class="st">&quot;pcb_138&quot;</span>,  <span class="st">&quot;pcb_153&quot;</span>, <span class="st">&quot;pcb_180&quot;</span>, <span class="st">&quot;pcb_192&quot;</span>),</a>
+<a class="sourceLine" id="cb3-2" title="2">                   <span class="kw">c</span>(<span class="st">&quot;as&quot;</span>, <span class="st">&quot;cu&quot;</span>, <span class="st">&quot;pb&quot;</span>, <span class="st">&quot;sn&quot;</span>), </a>
+<a class="sourceLine" id="cb3-3" title="3">                   <span class="kw">c</span>(<span class="st">&quot;carbaryl&quot;</span>, <span class="st">&quot;propoxur&quot;</span>, <span class="st">&quot;methoxychlor&quot;</span>, <span class="st">&quot;diazinon&quot;</span>, <span class="st">&quot;chlorpyrifos&quot;</span>))</a>
+<a class="sourceLine" id="cb3-4" title="4">X &lt;-<span class="st"> </span><span class="kw">make.X</span>(simdata, <span class="dt">num.groups =</span> <span class="dv">3</span>, <span class="dt">groups =</span> group_list)</a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="kw">head</span>(X)</a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt;       pcb_118  pcb_138  pcb_153   pcb_180   pcb_192        as        cu</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; [1,] 2.360824 2.700214 3.536807 1.3630520  3.568884  4.332258 3.4998226</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; [2,] 2.788382 1.353622 2.328022 3.3261689 -2.020155 -1.146443 0.8174605</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt; [3,] 6.246413 3.166612 6.851131 7.2149506 10.504976  5.042383 6.2631718</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt; [4,] 3.642265 2.881070 3.760282 4.3231974  3.368709  2.814906 3.9192663</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; [5,] 3.481870 3.820329 3.178467 0.9451579  3.786788  6.331203 2.2228106</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; [6,] 4.088892 4.799032 5.467218 4.2547060  6.078460  2.622098 1.8577607</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;              pb       sn   carbaryl propoxur methoxychlor   diazinon</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; [1,]  7.6088824 3.975121  4.7416076 4.203351     4.598234  5.5571762</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt; [2,] -1.6830696 1.710898 -0.4558587 2.255870     2.751266  2.6322118</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt; [3,]  7.2252882 4.857086  7.2872371 5.274585     6.739046 12.0197435</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt; [4,]  2.1143266 3.798077  0.7455287 3.111616     2.940376  0.6781079</span></a>
+<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt; [5,]  4.8262313 4.409647  0.6547444 2.309184     3.652926  0.6819997</span></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; [6,]  0.6898549 4.374542  4.3322814 4.672852     4.023438  6.7486293</span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="co">#&gt;      chlorpyrifos</span></a>
+<a class="sourceLine" id="cb3-21" title="21"><span class="co">#&gt; [1,]    5.4269398</span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt; [2,]   -0.6704027</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt; [3,]    8.1984625</span></a>
+<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt; [4,]    1.5744175</span></a>
+<a class="sourceLine" id="cb3-25" title="25"><span class="co">#&gt; [5,]    1.7293713</span></a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="co">#&gt; [6,]    5.9936270</span></a></code></pre></div>
+<p>We should note that the data in <code>X</code> must be chemical concentrations, which will be converted to quantiles during analysis.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><code>make.x.s</code></li>
+</ol>
+<p><code>make.x.s</code> creates a vector which tells <code>gwqs.fit</code> the size and order of our groups. Conveniently, it uses the same arguments as <code>make.X</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">x.s &lt;-<span class="st"> </span><span class="kw">make.x.s</span>(simdata, <span class="dt">num.groups =</span> <span class="dv">3</span>, <span class="dt">groups =</span> group_list)</a>
+<a class="sourceLine" id="cb4-2" title="2">x.s</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; [1] 5 4 5</span></a></code></pre></div>
+<p>With these steps all chemical concentration data have been prepared for analysis. To complete data preparation we define our outcome object</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">Y &lt;-<span class="st"> </span>simdata<span class="op">$</span>Y</a></code></pre></div>
+<p>and split our data into training and validation sets. The training data will be used to estimate the weights in the indices and the validation data will be used to estimate the exposure effects and perform significance testing.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">Y.train &lt;-<span class="st"> </span>Y[<span class="dv">1</span><span class="op">:</span><span class="dv">700</span>]</a>
+<a class="sourceLine" id="cb6-2" title="2">Y.valid &lt;-<span class="st"> </span>Y[<span class="dv">701</span><span class="op">:</span><span class="dv">1000</span>]</a>
+<a class="sourceLine" id="cb6-3" title="3">X.train &lt;-<span class="st"> </span>X[<span class="dv">1</span><span class="op">:</span><span class="dv">700</span>,]</a>
+<a class="sourceLine" id="cb6-4" title="4">X.valid &lt;-<span class="st"> </span>X[<span class="dv">701</span><span class="op">:</span><span class="dv">1000</span>,]</a></code></pre></div>
+</div>
+<div id="model-fitting" class="section level3">
+<h3>Model Fitting</h3>
+<p>To fit a model we will use the <code>gwqs.fit</code> function. First we pass the objects defined above (<strong>note</strong>: If arguments are not supplied for <code>y.train</code> and <code>x.train</code> the <code>y</code> and <code>x</code> data passed will be used for both training and validation). In addition to the <code>x</code> and <code>y</code> parameters there are <code>z</code> and <code>z.train</code> parameters for covariates, but as we are not including covariates in this model these paramters will be left empty. The <code>B</code> parameter tells the function how many bootstrap samples to use in estimation and <code>n.quantiles</code> specifies the number of quantiles to use. The <code>func</code> parameter tells the function which outcome type to fit the model for (continuous and binary outcomes are currently supported). In the example below, five quantiles (quintiles) are used for the chemicals.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">results &lt;-<span class="st"> </span><span class="kw">gwqs.fit</span>(<span class="dt">y =</span> Y.valid, <span class="dt">y.train =</span> Y.train, <span class="dt">x =</span> X.valid, <span class="dt">x.train =</span> X.train, <span class="dt">x.s =</span> x.s, </a>
+<a class="sourceLine" id="cb7-2" title="2">                   <span class="dt">B=</span><span class="dv">100</span>, <span class="dt">n.quantiles =</span> <span class="dv">5</span>, <span class="dt">func =</span> <span class="st">&quot;binary&quot;</span>)</a></code></pre></div>
+<p>If there are convergence problems after model fitting the <code>tol</code> and <code>delta</code> parameters can be adjusted. A larger <code>tol</code> value will relax the criteria for convergence and a larger <code>delta</code> will increase the step size for the bootstrap procedure; both will speed up convergence.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">summary</span>(results<span class="op">$</span>fit)<span class="op">$</span>coefficients</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt;                Estimate Std. Error    z value     Pr(&gt;|z|)</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; (Intercept) -0.32603180 0.27755705 -1.1746479 2.401356e-01</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt; GWQS1       -0.15115245 0.10734406 -1.4081119 1.590979e-01</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt; GWQS2        0.02752265 0.11064848  0.2487395 8.035623e-01</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt; GWQS3        0.36460969 0.09319801  3.9122049 9.145726e-05</span></a></code></pre></div>
+<p>The results above are the regression coefficients for the estimated exposure indices. This is in the validation set.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">summary</span>(results<span class="op">$</span>fit)<span class="op">$</span>aic</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; [1] 405.0709</span></a></code></pre></div>
+<p>Next is the AIC for the model we have fit.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">exp</span>(<span class="kw">confint</span>(results<span class="op">$</span>fit))</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; Waiting for profiling to be done...</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt;                 2.5 %   97.5 %</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; (Intercept) 0.4169083 1.241132</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">#&gt; GWQS1       0.6950784 1.059755</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">#&gt; GWQS2       0.8272148 1.277704</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">#&gt; GWQS3       1.2027084 1.734440</span></a></code></pre></div>
+<p>And finally are the 95% CIs for the odds ratios of the indicies. We can see from the results that of our three groups only the third, GWQS3, is statistically significant at the 0.05 level, and has a 95% CI of (1.20, 1.72) for its odds ratio.</p>
+</div>
+<div id="examining-individual-component-weights" class="section level3">
+<h3>Examining Individual Component Weights</h3>
+<p>The weights for individiual chemical components in each group are listed in the object returned by <code>gwqs.fit</code>. To view them graphically in descending order of importance, we can use the <code>plot.weights</code> function. Besides the model fit object, we just need to create a string vector naming our groups. This vector’s order matters - names must match their corresponding index in the group list defined above.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">chem_groups &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PCBs&quot;</span>, <span class="st">&quot;Metals&quot;</span>, <span class="st">&quot;Insecticides&quot;</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">weight.plot</span>(results, chem_groups)</a></code></pre></div>
+<div class="figure">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAt1BMVEUAAAAAADoAAGYAOjoAOmYAOpAAZpAAZrY6AAA6ADo6AGY6Ojo6OmY6ZpA6ZrY6kLY6kNtmAABmADpmOgBmOjpmZgBmZjpmZmZmkJBmkLZmkNtmtttmtv+QOgCQZjqQkGaQtpCQttuQ27aQ29uQ2/+2ZgC2Zjq2kDq2tma2tpC229u22/+2/7a2//++vr7bkDrbkGbbtmbbtpDb2//b/9vb////tmb/25D/27b/29v//7b//9v///9iRjNVAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAKBUlEQVR4nO2dC3vbNBSGnUJpxthIxp26jEG9AWOYW52R+v//LnR0ceRL88WJVHnO9z5b47iOFL/VxT6RlKwme8lSv4GpQ0EACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCBBZ0P1NttI/L97VdaV/GjbL3XZdb9dZbjf/e53Xbd5/kWXPB9JWLxIWz+/k2d9fqs1nb5vd2UevgpxB7BJUZFdiI1vc1nWZXd65/Q8JUi7zXhKZWO7hTEgO9WuzqbJpdvcSOorYgrSUSp+iKU2DAEHDLzMvun8jVqpsca1K0VLlZtNSCV2FOIHYgnRJKbJv1Ls17/xPVZq+dyVIPXn+l6p46lfXqgw8u1Onlann76W+XOsE9B6lYKMq2sevRMvi5fJCVSVnVR6c+1LVMSdb/2m8hI4ktiDz9hc/rS/eWVeZLk76SWmqghZkKosR9Pt6V0WsoMoccG1qkK6qXgnaLKUK73JUD+/F2XZ9cl2LLUj+tpvl5b+q5lTqvDbyxxc58l+9/au79zdG0OXb+o3a0lVMn2/TYhXmTK/u7t9k9kX/yH6vDfJbtGa3enk7oaOI3s2X2ZX6px5W8lC59tNIkr97Zc46N1takHq6ePbKnVXhCpwuHLvmypr46Lu7YUGLbkJHEV2QOuuvdKG4lFMvfUGm27dlKfcE6Qan6bpEkDlUiqNqg2xt8q4NBqqYLm7thI4iuiDVxcs7lb+rX9z3liDFf79+ndmT7pagAUGuka4++63ZbQ/0EjqK6IKkkRUphfakdF3X0m/12qC8EaTLy+2uVHTboAFBSny3m6//1E27n9BRxL/VKEwRr8wFXb8Xe9oSJAcsfr5xraxJYFW7xiuvhwUNXihemS4wm3YjLaeW17qqiaf7N93roHYVk1bj4u39D5lcFZkEzIXi37vroCFB+vetW43F5+r1rYSOIuXNqq43J/bC0Ul6N2/q20mdTHSSCrp/rbo4qXAThvEgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAjy2oGwqHPyGY9qYQH4PQUEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggCPIGizzIf2fqonj8pMMP3rKmvP9zt3Qdu1nl1b6rn+6veVbPiGzlxQldnJt3pyocz4W5mNAPmFwsSCwgvaPPlxaad2Sf2RuerfLjtzvapsVbUEGYmlt0xHckE2WhZB0FJVGV1tSj0xdKXnym6WndlwVauKbZ7cNvtG5hcJF0+MIUhUlDKreOXv8BdxqRsZtm02zY/fCGV/1PUfCf/HFJSbc3VtT7NjQFChZ4CvhgQdml8kIgp6Ys/VbLgd7pmjMosp5LUuXNOrYhHboEYQLkFNwZlgIx2vF9NNTtFrgzpzur0SVMk6CtPr5g0xBLmLP+miVEe+2+HTboPO6ULRXPbksulfB+Wdw2x706w7Vp7NrcbwrddoKChUfpF5REGyQJDmoEVo5isoEBQ0sfwegoIAFASYQMhVt9l6jSw/InLugmzItdCholz50SvfBbvVGDEyDKUU/MAee0Ku5natlIU35ZhgN6ujxs6BpIIfOCbk2gkDhYoHjRxduD+t4AeOCblaQe5GrfBLUIBoYJDIYgRBh4dcbc2ygiq/mM25BOX14SFXXbjcR4f+wtdzboMOD7mahUl/f2EqWqsSzrcXGxNyta+QS6Kys0rifK+DxoRcDfKrshtRm7Ogw0Ou2/WVKVu9Tm7WgkaEXO3q0W597Ql9LuZgRBFAQQCGXAGMBwEoCEBBgMQRRbOuvNyDnc8nqz32RRSbOzS52T+Tz+Z77IkoNjcc+rbEjFjcl1+4e9CDSRtRrEs/wgEFBYxiHEziQZzFU+/DjBJUsZBxsINJG1HcrvWX1Ziv2+l87NMPfzaCHnUwZwRBeT0uHuQ272+8kMiMS9CoiKI+wLXi6FONmbRB4yOKzp3f3824FztmEGezMT6/yKQexKnnaqy0UDujZWx+kZnCIM68tTE2v8gwYAagIAAjigDGgwAUBKAgAAUBpjKIczeB/uT8wpI45NpEWsvu1XYnvwR3YYPvI8CBPdAgTgkkNvPDH8gvxX380PsIceCokKtwgKAkkaCB9xHkwFEhV6EcrmJ+ZM8KSjI9PIKgMfPmm0jr3sVNZlaC8npUwExHWpvJq8P5zasNGhtyPWRa+Ix6sSNCrst8eisvOBhyBaQOubpIK2iD0jGpkOt5zBdjRBFAQQCGXB8HCppYfg9BQQAKAqQOufbXLD05v7AkDrn21yz180t2h+qReJRrb81SP790MQ6PxCHX3pqlXn4Jo2Qe6UOu1QNVrImzJl6RM4KgUSHXzpqlXn7zLUF5PSZg1lkv0MtvCn4mEHJtr1naym8CfiYQch1a5WRMfpFJG3JtNhhyfSDkWu9rgyZB6pBrf83SsflFhhFFAAUBGHIFMB4EoCAABQEoCEBBAAoCUBCAggDTFTQVDn7DMW0EyB4dcHICsV8fO3sKOvEACoqdQOzXx86egk48gIJiJxD79bGzp6ATD5i7oOlDQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCAGkEdYaXN1OEjkugu25+UJII6nwLfTNF6LgEeuvmByWFILO4azPFpZkidFwC/XXzg5JCUHv8fWtVpmMSEGYmyAza769dfnQC7XXzg5JCUG+CwlhB3QQ66+YHZRaCOuvmB2UmVSxeN5a+ka6PENRrpEONc+8zgW5+vKBWAv0ZRUGZwoXi+LNrJdBbNz8oaW417M2Bu3oZ/+dvJdBdNz8ovFkFUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggATFlToMVGlHjzmj0HcrvO6/6TydoZkwoLM+J/iG/HkVtjt4QS1rIVkwoL0wJ/tix9lOFl32eqGcxakS011+e9NbkuTLLK7ci6KLFu8XNxu13rJXVkONM4oxQkL0kPIyiv9oDftlwxoQbIOc5WJILW3lMc8zpuYsqDq8u7+JncPphmqLt6JCzPurhAxK10Zz1KQani2L27lQZogM+TOurBf32FLjvpxloJUuan0+EP9UNnV2bSLkoKEYlWab3aRh2bQJktQQ/XJTS4PH3+Rex35rg0qz13Q5qn57o6lLjx6wkphnex6sdwKijQOeNKC7AwMNxFDroOUl+Y66OIX06XpPcUZXgdBog2v9/hABZnbkFjVyucDFWQ6/fwRMvpQBT0aFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAjwP6AAbSkCSmGGAAAAAElFTkSuQmCC" alt="Figure 1: Importance plot for chemical concentration weights of GWQS1 index" width="60%" height="60%" />
+<p class="caption">
+Figure 1: Importance plot for chemical concentration weights of GWQS1 index
+</p>
+</div>
+<div class="figure">
+<img src="data:image/png;base64,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" alt="Figure 2: Importance plot for chemical concentration weights of GWQS2 index" width="60%" height="60%" />
+<p class="caption">
+Figure 2: Importance plot for chemical concentration weights of GWQS2 index
+</p>
+</div>
+<div class="figure">
+<img src="data:image/png;base64,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" alt="Figure 3: Importance plot for chemical concentration weights of GWQS3 index" width="60%" height="60%" />
+<p class="caption">
+Figure 3: Importance plot for chemical concentration weights of GWQS3 index
+</p>
+</div>
+<p>Our one significant index was a group of insecticide compounds. Of the five chemicals it appears methoxychlor was mostly responsible for the association GWQS3 had with the outcome variable.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
