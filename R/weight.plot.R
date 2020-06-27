@@ -19,7 +19,7 @@
 #' weight.plot(results, chem_groups)
 #' @export
 weight.plot <- function(fit.object, group.names){
-    plot_num <- length(fit.object)
+    plot_num <- length(fit.object[[3]])
 
     for (i in 1:plot_num){
         weight_vec <- fit.object[[3]][[i]]

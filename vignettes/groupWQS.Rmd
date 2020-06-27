@@ -124,7 +124,7 @@ Next is the AIC for the model we have fit.
 exp(confint(results$fit))
 ```
 
-And finally are the 95% CIs for the odds ratios of the indicies. We can see from the results that of our three groups only the third, GWQS3, is statistically significant at the 0.05 level, and has a 95% CI of (1.20, 1.72) for its odds ratio.
+And finally are the 95% CIs for the odds ratios of the indicies. We can see from the results that of our three groups only the third, GWQS3, is statistically significant at the 0.05 level, and has a 95% CI of (1.2, 1.7) for its odds ratio.
 
 ### Examining Individual Component Weights
 

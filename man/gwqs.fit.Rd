@@ -54,8 +54,7 @@ gwqs.fit(
 \item{delta}{Step size for bootstrap procedure.}
 }
 \value{
-A list of 2 containing the GWQS estimate based on calculated weights
-and the GWQS model fit to validation data
+A list of 3 containing the GWQS estimate based on calculated weights, the GWQS model fit to validation data, and weight estimates
 }
 \description{
 This function fits a grouped weighted quantile sum (GWQS) regression model.
